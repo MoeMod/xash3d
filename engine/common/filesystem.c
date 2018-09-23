@@ -1769,7 +1769,7 @@ void FS_LoadGameInfo( const char *rootfolder )
 
 	if( i == SI.numgames )
 		Sys_Error( "Couldn't find game directory '%s'\n", gs_basedir );
-
+	
 	SI.GameInfo = SI.games[i];
 	if( !Sys_GetParmFromCmdLine( "-dll", SI.gamedll ) )
 	{
@@ -2167,7 +2167,7 @@ Look for a existing folder
 */
 qboolean FS_SysFolderExists( const char *path )
 {
-#ifdef XASH_UWP
+#ifdef XASH_WINRT
 	struct _finddata_t n_file;
 	int hFile;
 	// ask for the directory listing handle

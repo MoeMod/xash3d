@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 
 	HMODULE hEngine = LoadPackagedLibrary(L"xash_sdl.dll", 0);
 	pfnInit f = (pfnInit)GetProcAddress(hEngine, "Host_Main");
-	f(argc, argv, "csbtem", 0, NULL);
+	f(argc, argv, "valve", 0, NULL);
 
 	return 0;
 }
