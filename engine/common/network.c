@@ -15,7 +15,11 @@ GNU General Public License for more details.
 
 #ifdef _WIN32
 // Winsock
+#ifdef XASH_WINRT
+#include <winsock2.h>
+#else
 #include <winsock.h>
+#endif
 #include <wsipx.h>
 #define socklen_t int //#include <ws2tcpip.h>
 #else

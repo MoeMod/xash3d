@@ -1054,10 +1054,20 @@ void Host_InitCommon( int argc, const char** argv, const char *progname, qboolea
 #elif defined(__SAILFISH__)
 		Q_strncpy( host.rootdir, GAMEPATH, sizeof( host.rootdir ));
 #elif defined(XASH_SDL)
-		if( !( baseDir = SDL_GetBasePath() ) )
-			Sys_Error( "couldn't determine current directory: %s", SDL_GetError() );
+		
+#ifdef XASH_WINRT
+		if (!(baseDir = SDL_WinRTGetFSPathUTF8(SDL_WINRT_PATH_LOCAL_FOLDER)))
+			Sys_Error("couldn't determine current directory: %s", SDL_GetError());
+
+		Q_strncpy( host.rootdir, baseDir, strlen(baseDir) );
+#else
+		if (!(baseDir = SDL_GetBasePath()))
+			Sys_Error("couldn't determine current directory: %s", SDL_GetError());
 		Q_strncpy( host.rootdir, baseDir, sizeof( host.rootdir ) );
-		SDL_free( baseDir );
+		SDL_free(baseDir);
+#endif
+
+		
 #else
 		if( !getcwd( host.rootdir, sizeof(host.rootdir) ) )
 		{
@@ -1148,10 +1158,17 @@ void Host_InitCommon( int argc, const char** argv, const char *progname, qboolea
 #endif
 #endif
 
-	if ( !host.rootdir[0] || SetCurrentDirectory( host.rootdir ) != 0)
-		MsgDev( D_INFO, "%s is working directory now\n", host.rootdir );
+#ifdef XASH_WINRT
+	if (SetCurrentDirectory(SDL_WinRTGetFSPathUNICODE(SDL_WINRT_PATH_LOCAL_FOLDER)))
+		MsgDev( D_INFO, "%s is working directory now\n", baseDir);
 	else
-		Sys_Error( "Changing working directory to %s failed.\n", host.rootdir );
+		Sys_Error( "Changing working directory to %s failed.\n", baseDir);
+#else
+	if (!host.rootdir[0] || SetCurrentDirectory(host.rootdir) != 0)
+		MsgDev(D_INFO, "%s is working directory now\n", host.rootdir);
+	else
+		Sys_Error("Changing working directory to %s failed.\n", host.rootdir);
+#endif
 
 	Sys_InitLog();
 

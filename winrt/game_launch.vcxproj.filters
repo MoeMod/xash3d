@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Launcher_TemporaryKey.pfx" />
+    <None Include="bin\SDL2.dll">
+      <Filter>bin</Filter>
+    </None>
+    <None Include="bin\xash_sdl.dll">
+      <Filter>bin</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\SDL2\src\main\winrt\SDL_winrt_main_NonXAML.cpp" />
+    <ClCompile Include="xash_winrt.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="bin">
+      <UniqueIdentifier>{89148b7d-60d6-4c6e-bb62-de07cfde584c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

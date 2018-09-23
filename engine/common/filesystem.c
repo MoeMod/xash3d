@@ -2167,7 +2167,16 @@ Look for a existing folder
 */
 qboolean FS_SysFolderExists( const char *path )
 {
-#ifdef _WIN32
+#ifdef XASH_UWP
+	struct _finddata_t n_file;
+	int hFile;
+	// ask for the directory listing handle
+	hFile = _findfirst( path, &n_file );
+	if ( hFile == -1 )
+		return 0;
+	_findclose( hFile );
+	return 1;
+#elif defined( _WIN32 )
 	DWORD	dwFlags = GetFileAttributes( path );
 
 	return ( dwFlags != -1 ) && ( dwFlags & FILE_ATTRIBUTE_DIRECTORY );
